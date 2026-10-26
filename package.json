@@ -1,0 +1,16 @@
+{
+  "name": "blovy-ai-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BLOVY AI Basic Android wrapper",
+  "scripts": {
+    "build:android": "npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/android": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}

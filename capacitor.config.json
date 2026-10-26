@@ -1,0 +1,6 @@
+{
+  "appId": "com.blovy.ai",
+  "appName": "BLOVY AI",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

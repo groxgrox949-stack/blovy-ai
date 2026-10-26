@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050914">
+<title>BLOVY AI</title>
+<style>
+:root{--bg:#050914;--panel:#0b1425;--blue:#22d3ee;--blue2:#4785ff;--text:#eaf7ff;--muted:#91a8c5;--line:rgba(80,180,255,.2)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 0%,#10274b 0%,var(--bg) 48%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100dvh;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;min-height:100dvh;display:flex;flex-direction:column;padding:16px 14px calc(14px + env(safe-area-inset-bottom));gap:14px}
+header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:5px 2px 13px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border:1px solid var(--blue);border-radius:13px;display:grid;place-items:center;color:var(--blue);font-weight:900;box-shadow:0 0 22px #22d3ee24;font-size:18px}
+h1{font-size:18px;letter-spacing:3px;margin:0}.sub{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:3px}
+.status{font-size:11px;color:#70f4ce;display:flex;align-items:center;gap:6px}.dot{width:7px;height:7px;background:#70f4ce;border-radius:50%;box-shadow:0 0 9px #70f4ce}
+.hero{border:1px solid var(--line);border-radius:22px;background:linear-gradient(150deg,#0c1b32bb,#07101ddd);padding:18px 14px 16px;text-align:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,#4bd9ff08 50%,transparent 80%);pointer-events:none}
+.core-wrap{height:150px;display:grid;place-items:center;position:relative}
+.core{width:116px;height:116px;border-radius:50%;border:1px solid #42d9ffb8;display:grid;place-items:center;position:relative;box-shadow:0 0 30px #22d3ee28,inset 0 0 25px #22d3ee12;animation:pulse 3s ease-in-out infinite}
+.core:before,.core:after{content:"";position:absolute;border-radius:50%;border:1px dashed #3c9fff9c;inset:-11px;animation:spin 16s linear infinite}
+.core:after{inset:9px;border-style:solid;border-color:#4785ff8c;animation-direction:reverse;animation-duration:9s}
+.core span{font-size:34px;font-weight:200;color:var(--blue);text-shadow:0 0 18px #22d3ee}
+.ring{position:absolute;width:145px;height:145px;border:1px solid #4785ff40;border-radius:50%}
+.hero-title{font-size:18px;letter-spacing:1px;margin:4px 0}.hero-desc{font-size:12px;color:var(--muted);margin:0}
+.clock{font-size:12px;color:var(--blue);letter-spacing:2px;margin-top:12px}
+.chat{flex:1;min-height:220px;max-height:42vh;overflow-y:auto;border:1px solid var(--line);border-radius:18px;background:#07101dbd;padding:14px;display:flex;flex-direction:column;gap:12px}
+.message{max-width:90%;padding:11px 13px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bot{align-self:flex-start;background:#10243b;border:1px solid #214b6b}.user{align-self:flex-end;background:linear-gradient(135deg,#164e78,#1b3f86);border:1px solid #438aff70}
+.label{font-size:10px;letter-spacing:1.5px;color:var(--blue);margin-bottom:4px}
+.quick{display:flex;gap:8px;overflow-x:auto;padding:1px 0 3px}.quick button{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:9px 12px;background:#0a1729;color:#cbeaff;font-size:12px}
+.composer{display:flex;gap:8px;padding:8px;border:1px solid #2b6792;border-radius:17px;background:#091528;box-shadow:0 0 24px #22d3ee0b}
+input{min-width:0;flex:1;background:transparent;border:0;outline:0;color:var(--text);font-size:14px;padding:8px}
+.send{border:0;border-radius:12px;background:linear-gradient(135deg,#22d3ee,#4785ff);color:#03101c;font-weight:800;padding:0 17px}
+footer{display:flex;justify-content:space-between;align-items:center;color:#718ba9;font-size:10px;letter-spacing:1px;padding:0 3px}
+.clear{border:0;background:none;color:#8bb9d7;text-decoration:underline;font-size:11px}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{box-shadow:0 0 42px #22d3ee45,inset 0 0 32px #22d3ee1f;transform:scale(1.025)}}
+@media(min-width:600px){.app{padding-top:24px}.hero{padding:24px}.core-wrap{height:170px}.chat{max-height:45vh}}
+</style>
+</head>
+<body>
+<main class="app">
+<header>
+  <div class="brand"><div class="logo">B</div><div><h1>BLOVY AI</h1><div class="sub">PERSONAL ASSISTANT</div></div></div>
+  <div class="status"><span class="dot"></span> SYSTEM ONLINE</div>
+</header>
+<section class="hero">
+  <div class="core-wrap"><div class="ring"></div><div class="core"><span>B</span></div></div>
+  <div class="hero-title">SISTEM BLOVY AKTIF</div>
+  <p class="hero-desc">Asisten digital pribadimu siap membantu.</p>
+  <div class="clock" id="clock">--:--:--</div>
+</section>
+<section class="chat" id="chat" aria-live="polite"></section>
+<div class="quick">
+  <button data-prompt="Apa saja yang bisa kamu lakukan?">Apa yang bisa kamu lakukan?</button>
+  <button data-prompt="Buatkan ide konten video hari ini">Ide konten hari ini</button>
+  <button data-prompt="Buatkan prompt video AI yang keren">Prompt video AI</button>
+</div>
+<form class="composer" id="form">
+  <input id="input" autocomplete="off" placeholder="Ketik pesan untuk BLOVY..." aria-label="Pesan">
+  <button class="send" type="submit">KIRIM ➤</button>
+</form>
+<footer><span>BLOVY CORE • BASIC EDITION</span><button class="clear" id="clear">Hapus chat</button></footer>
+</main>
+<script>
+const chat = document.getElementById('chat');
+const input = document.getElementById('input');
+const KEY = 'blovy-basic-chat-v1';
+function addMessage(text, who, save=true){
+  const wrap=document.createElement('div'); wrap.className='message '+who;
+  if(who==='bot'){const label=document.createElement('div');label.className='label';label.textContent='BLOVY';wrap.appendChild(label)}
+  const body=document.createElement('div');body.textContent=text;wrap.appendChild(body);chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;
+  if(save) persist();
+}
+function persist(){
+  const data=[...chat.querySelectorAll('.message')].map(el=>({who:el.classList.contains('user')?'user':'bot',text:el.querySelector('div:last-child').textContent}));
+  try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}
+}
+function load(){
+  let data=[];try{data=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+  if(data.length){data.forEach(m=>addMessage(m.text,m.who,false))}
+  else addMessage('Halo! Aku BLOVY, asisten digital pribadimu.\\n\\nIni versi Basic: aku bisa membalas dengan respons sederhana dan menyimpan riwayat chat di perangkat ini. Untuk jawaban AI sungguhan, nanti kita perlu menghubungkan model AI.\\n\\nCoba ketik “bantu ide konten” atau pilih tombol di bawah.','bot');
+}
+function reply(message){
+  const m=message.toLowerCase();
+  if(/halo|hai|hello|pagi|siang|malam/.test(m)) return 'Halo! 👋 BLOVY siap menemanimu. Ada yang ingin kamu kerjakan hari ini?';
+  if(m.includes('bisa kamu lakukan')||m.includes('fitur')) return 'Untuk versi Basic, kamu bisa mengirim pesan, mencoba tombol ide cepat, dan menyimpan riwayat chat di browser. Aku belum terhubung ke model AI sungguhan, jadi jawabanku masih berupa respons dasar.';
+  if(m.includes('ide konten')||m.includes('konten')) return 'Ide konten hari ini:\\n1. Uji ketahanan dua HP dengan tes yang aman dan terkontrol.\\n2. Bandingkan kamera di kondisi cahaya yang sama.\\n3. Tampilkan 3 fitur HP yang sering terlewat.\\n\\nHook: “Kamu bakal pilih yang mana setelah lihat hasilnya?”';
+  if(m.includes('prompt')||m.includes('video ai')) return 'Contoh prompt video AI:\\n“Video vertikal 9:16, close-up produk smartphone di atas meja gelap futuristik, cahaya neon biru bergerak perlahan, kamera melakukan slow push-in, detail realistis, gerakan stabil, tanpa teks, tanpa mengubah bentuk atau logo produk.”\\n\\nSesuaikan dengan produk dan adegan yang kamu inginkan.';
+  if(m.includes('nama')) return 'Namaku BLOVY AI — asisten digital pribadimu. ✨';
+  if(m.includes('terima kasih')||m.includes('makasih')) return 'Sama-sama! Senang bisa membantu. ✨';
+  if(m.includes('jam')) return 'Jam perangkatmu sekarang: '+new Date().toLocaleTimeString('id-ID')+'.';
+  return 'Pesanmu sudah kuterima: “'+message+'”\\n\\nAku masih berjalan dalam mode Basic dan belum punya koneksi ke model AI. Kita bisa menambahkan AI sungguhan pada tahap berikutnya.';
+}
+function send(text){
+  const value=(text??input.value).trim();if(!value)return;
+  addMessage(value,'user');input.value='';
+  setTimeout(()=>addMessage(reply(value),'bot'),280);
+}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();send()});
+document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>send(b.dataset.prompt)));
+document.getElementById('clear').addEventListener('click',()=>{chat.innerHTML='';try{localStorage.removeItem(KEY)}catch(e){};addMessage('Chat dibersihkan. Halo lagi! Aku BLOVY. Ada yang bisa kubantu?','bot')});
+function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('id-ID',{hour12:false})}
+setInterval(tick,1000);tick();load();
+</script>
+</body>
+</html>
